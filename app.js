@@ -1,5 +1,6 @@
 const baseUrl = 'https://rickandmortyapi.com/api/'
 const characterList = document.getElementById('characters-list');
+const locationsList = document.getElementById('locations-list');
 
 const GetCharactersList = async url =>{
     /*fetch(`${baseUrl}${url}`) //Aquí se llama al link que se tiene
@@ -29,5 +30,24 @@ const GetCharactersList = async url =>{
     //console.log(await imgArr);
     //console.log(await data.results); //Al poner .results se imprimen en la concola solo el array result
 }
+
+GetLocationsList = async url =>{
+    const reponse = await fetch(`${baseUrl}${url}`);
+    const dataJson = await reponse.json();
+    const results = dataJson.results;
+
+    //console.log(dataJson); //se llama a la info del arreglo de results
+    const locationR = results.map(element => {
+        const {name, dimension} = element;
+        //console.log(element); //Se obtiene solo la información que habia en results
+        return {LocationName: name, LocationDim: dimension};
+    })
+
+    locationR.forEach(element => {
+    locationsList.innerHTML += `<div> <li>${element.LocationName}</li> <li>${element.LocationDim}</li> <br> </div>`
+    })
+}
+
+GetLocationsList('location');
 
 GetCharactersList('character');
